@@ -16,6 +16,11 @@ testado a partir da Box que está disponibilizada.
 
 ![Lambda Microservices Creator](https://s3-sa-east-1.amazonaws.com/lambda-microservices-creator/LogoTransparente.png)
 
+`Atenção:` Para utilizar o Lambda Creator completo você deve possuir os projetos:
+
+ - [https://github.com/michaeldouglas/lambda-microservices-skeleton](https://github.com/michaeldouglas/lambda-microservices-skeleton)
+ - [https://github.com/michaeldouglas/lambda-microservices-creator](https://github.com/michaeldouglas/lambda-microservices-creator)
+
 ## @TODO
 
 Está sendo trabalhado o ambiente que não depende do VirtualBox, ou seja, nesse

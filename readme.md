@@ -1,5 +1,9 @@
 # Lambda Creator Ambiente
 
+[![Latest Unstable Version](https://poser.pugx.org/leaphly/cart-bundle/v/unstable.svg)](//github.com/michaeldouglas/lambda-microservices-creator)
+[![License](https://poser.pugx.org/leaphly/cart-bundle/license.svg)](https://github.com/michaeldouglas/lambda-microservices-creator/blob/master/LICENSE)
+
+
 O ambiente foi feito em Vagrant para facilitar a subida em todos os ambientes.
 Isso por que no Windows temos que possuir o Hyper-V para utilizar o Docker e 
 só pode se utilizado para quem possuir o Windows Professional e muitos já conhecem
@@ -8,7 +12,18 @@ os ambientes com os containers.
 
 `Atenção:` Você não é obrigado a utilizar a box para subir a infra-estrutura
 do projeto porém como ainda o projeto encontra-se na versão `beta` tudo foi
-testado a partir da Box que está disponibilizada. 
+testado a partir da Box que está disponibilizada.
+
+![Lambda Microservices Creator](https://s3-sa-east-1.amazonaws.com/lambda-microservices-creator/LogoTransparente.png)
+
+## @TODO
+
+Está sendo trabalhado o ambiente que não depende do VirtualBox, ou seja, nesse
+novo ambiente só será necessário executar:
+
+```
+docker-compose up -d
+```
 
 ## Arquivo de Hosts
 

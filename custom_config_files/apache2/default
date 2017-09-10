@@ -1,0 +1,162 @@
+# Configuracao Default
+<VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+
+    DocumentRoot /var/www/html
+    <Directory />
+        Options FollowSymLinks
+        AllowOverride All
+    </Directory>
+    <Directory /var/www/html>
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride All
+        Order allow,deny
+        allow from all
+    </Directory>
+
+    ScriptAlias /cgi-bin/ /usr/lib/cgi-bin/
+    
+    <Directory "/usr/lib/cgi-bin">
+        AllowOverride All
+        Options +ExecCGI -MultiViews +SymLinksIfOwnerMatch
+        Order allow,deny
+        Allow from all
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+
+    # Possible values include: debug, info, notice, warn, error, crit,
+    # alert, emerg.
+    LogLevel warn
+
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+
+# Configuracao: Jenkins
+<VirtualHost *:80>
+    ServerName local.jenkins.com.br
+
+    ProxyRequests off
+
+    <Proxy *>
+        Order deny,allow
+        Allow from all
+    </Proxy>
+
+    <Location />
+        ProxyPass http://127.0.0.1:8080/
+        ProxyPassReverse http://127.0.0.1:8080/
+        LimitRequestBody 104857600
+   </Location>
+
+    ErrorLog ${APACHE_LOG_DIR}/wmdirect-api.error.log    
+    CustomLog ${APACHE_LOG_DIR}/wmdirect-api.access.log combined
+
+</VirtualHost>
+
+# Configuracao: Lambda Creator
+<VirtualHost *:80>
+    ServerName local.lambdacreator.com.br
+
+    ProxyRequests off
+
+    <Proxy *>
+        Order deny,allow
+        Allow from all
+    </Proxy>
+
+    <Location />
+        ProxyPass http://127.0.0.1:3001/
+        ProxyPassReverse http://127.0.0.1:3001/
+        LimitRequestBody 104857600
+   </Location>
+
+    ErrorLog ${APACHE_LOG_DIR}/wmdirect-api.error.log
+    CustomLog ${APACHE_LOG_DIR}/wmdirect-api.access.log combined
+
+</VirtualHost>
+######## SSL Configuration ###########
+
+SSLCipherSuite HIGH:MEDIUM:!MD5:!RC4
+SSLProxyCipherSuite HIGH:MEDIUM:!MD5:!RC4
+
+SSLHonorCipherOrder on
+
+SSLProtocol all -SSLv3
+SSLProxyProtocol all -SSLv3
+
+SSLPassPhraseDialog  builtin
+
+SSLSessionCache        "shmcb:/var/run/ssl_scache(512000)"
+SSLSessionCacheTimeout  300
+
+# Configuracao Default
+<VirtualHost _default_:443>
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/html
+    
+    ServerName localhost:443
+
+    ErrorLog ${APACHE_LOG_DIR}/ssl-error.log
+    TransferLog ${APACHE_LOG_DIR}/ssl-access.log
+
+    SSLEngine on
+
+    SSLCertificateFile "/var/ssl/vagrant-ssl.cert"
+    SSLCertificateKeyFile "/var/ssl/vagrant-ssl.key"
+
+    <FilesMatch "\.(cgi|shtml|phtml|php)$">
+        SSLOptions +StdEnvVars
+    </FilesMatch>
+
+    BrowserMatch "MSIE [2-5]" \
+             nokeepalive ssl-unclean-shutdown \
+             downgrade-1.0 force-response-1.0
+
+    CustomLog ${APACHE_LOG_DIR}/ssl-request.log \
+              "%t %h %{SSL_PROTOCOL}x %{SSL_CIPHER}x \"%r\" %b"
+</VirtualHost>
+
+# Configuracao Jenkins
+<VirtualHost *:443>
+    ServerName local.jenkins.com.br
+
+    ProxyRequests off
+
+    <Proxy *>
+        Order deny,allow
+        Allow from all
+    </Proxy>
+
+    <Location />
+        ProxyPass http://127.0.0.1:8080/
+        ProxyPassReverse http://127.0.0.1:8080/
+        LimitRequestBody 104857600
+   </Location>
+
+    ErrorLog ${APACHE_LOG_DIR}/jenkins.error.log
+    CustomLog ${APACHE_LOG_DIR}/jenkins.access.log combined
+
+</VirtualHost>
+
+# Configuracao Lambda Creator
+<VirtualHost *:443>
+    ServerName local.lambdacreator.com.br
+
+    ProxyRequests off
+
+    <Proxy *>
+        Order deny,allow
+        Allow from all
+    </Proxy>
+
+    <Location />
+        ProxyPass http://127.0.0.1:3001/
+        ProxyPassReverse http://127.0.0.1:3001/
+        LimitRequestBody 104857600
+   </Location>
+
+    ErrorLog ${APACHE_LOG_DIR}/lambda_creator.error.log
+    CustomLog ${APACHE_LOG_DIR}/lambda_creator.access.log combined
+
+</VirtualHost>
